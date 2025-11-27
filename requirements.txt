@@ -1,0 +1,12 @@
+pandas
+numpy
+pyarrow
+networkx
+spotipy
+lxml
+tqdm
+matplotlib
+scikit-learn
+jupyter
+notebook
+ipykernel
