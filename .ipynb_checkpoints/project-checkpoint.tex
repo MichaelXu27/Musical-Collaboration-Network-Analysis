@@ -1,0 +1,169 @@
+\documentclass[a4paper]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{floatrow}
+\usepackage{layout}
+\usepackage{amssymb} 
+\usepackage{multirow}
+\usepackage{caption}
+\geometry{margin=1in}
+\usepackage{authblk}
+\usepackage{indentfirst}
+\usepackage[hidelinks]{hyperref}
+
+\providecommand{\keywords}[1]
+{
+  \small	
+  \textbf{\; \textit{Keywords:}} #1
+}
+
+\providecommand{\repo}[1]
+{
+  \small	
+  \textbf{\; \textit{GitHub Repo: }} #1
+}
+
+\begin{document}
+
+\title{\textbf{\huge{Link Prediction in a Music Artist Collaboration Network}}}
+
+\author{\textbf\large{Michael Xu, Aaryabrat Chhatkuli, Matthew Jing}}
+
+
+\affil{\textbf{Washington University in St. Louis, St. Louis, 63130}}
+
+\date{\today}
+
+\maketitle
+\begin{abstract}
+This project explores different structural mechanisms to find out which best predicts future collaborations in a real-world music artist network. Using the Discogs Data to construct an artist-artist collaboration graph labeled by release year and Spotify metadata to obtain genres, popularity, and group membership, our goal is to understand the underlying reasons behind how collaborations take place between artists and which structural patterns drive this process. Using cutoff years for separating train and test sets, the goal is to predict which artist pairs collaborate after the set cutoff by training on past edges and evaluating on the future edges.
+
+We compare three mechanism-based link prediction approaches, inspired by topics discussed in class: (1) local neighborhood closure using common neighbors, Jaccard similarity, and counts of open vs. closed triadic motifs to test what effect triadic closure has on collaborations; (2) community-based prediction using both genre-based communities and collaboration-driven communities to find out whether homophily within the communities explains the new links being formed; and (3) structural role and random-walk similarity, using RolX to assign artists to roles like hubs, bridges, peripherals, while using SimRank to get random-walk-based structural similarity between artists. 
+
+However, to truly understand our results, we will use a baseline using a non-graph approach that predicts the collaboration between artists via weighted artist attributes–specifically looking at genre overlap, activity levels of the artists like how many collaborations they have per year for an example, and number of groups/bands the artist is a part of. Through this, we have a benchmark that we can compare our structural network findings with, and this will help improve the predictions and their meanings rather than just simply looking at attribute similarities. 
+
+To evaluate the predictions we get on where links will be formed, we will use a variety of methods including AUC, Precision, and Recall, and we will analyze performances within the community edges as well as between the community edges, higher vs. low popularity artists, and different structural role classes. We will also use Gephi to visualize the network using, which will help us show community layouts, structural roles, motif patterns, and see how our predictions compare on a visual standpoint vs the actual ones to get a qualitative analysis of the behavior of new node formation in the network. Our goal is to give an explanation to the phenomenon of collaborations in the music industry by providing a mechanism-level explanation of new link formation between nodes, and understand if future collaborations is best explained by triadic closure, community structure, structural roles or similarity.
+
+\subsection*{Division of Work}
+
+\begin{itemize}
+    \item
+    \textbf{Michael:}
+    \begin{itemize}
+        \item Collect and clean Discogs collaboration data, extract the artist-artist edges with release years
+        \item Retrieve the Spotify metada (genres, popularity, group memberships) using API or cached datasets
+        \item Build train/test graphs using cutoff years and making sure to use reproducible preprocessing pipelines
+    \end{itemize}
+    \item
+    \textbf{Aaryabrat:}
+    \begin{itemize}
+        \item Implement local link prediction metrics like common neighbors, Jaccard, motif counts
+        \item Work on Community-based predictors like genre-based communities as well as collaboration based communities
+        \item Work on RolX role discovery and compute role-similarity scores; get SimRank random walk similarity
+    \end{itemize}
+    \item
+    \textbf{Matthew:}
+    \begin{itemize}
+        \item Implement the non-graph baseline using weighted artist attributes and run evaluation using Precision, Recall, AUC, while analyzing performance across different subsets
+        \item Produce Gephi visualizations for communities, structural roles, and predicted vs. actual edges, analyzing motif patterns, structural role distributions and prediction differences
+        \item Compile all results and create visual figures/tables, and combine the final results for proposal and report
+    \end{itemize}
+\end{itemize}
+ 
+
+\section*{Resources}
+\subsection*{Data}
+\begin{itemize}
+    \item Discogs Artist Collaboration Dataset (public dumps) \url{https://discogs-data-dumps.s3.us-west-2.amazonaws.com/index.html}
+    \item Spotify API metadata (genres, popularity, related artists) \url{https://developer.spotify.com/documentation/web-api}
+    \item Optional potential datasets we are considering for validation could be  MusicBrainz PostgreSQL Data Dumps or Last.fm artist tags and similarity sets
+    \item Numpy, NetworkX, Pandas
+\end{itemize}
+\subsection*{Implementations/Software Packages}
+\begin{itemize}
+    \item NetworkX for graph processing, link prediction baselines, SimRank
+    \item roleX/ReFex for RolX implmentation
+    \item Python packages including pandas, numpy, scipy, scikit-learn
+    \item Gephi for network visualization
+    \item Spotipy, Python library for the Spotify Web API
+\end{itemize}
+
+    
+\subsection*{References}
+    \item “Modeling Artist Influence for Music Selection and Recommendation: A Purely Network-Based Approach.” Harvard Data Science Review, https://doi.org/10.1162/99608f92.fb935f61.
+    \item Jacobson, Kurt, Mark B. Sandler, and Benjamin Fields. "Using Audio Analysis and Network Structure to Identify Communities in On-Line Social Networks of Artists." ISMIR. 2008.
+    \item Yoo, Yeawon, et al. “Quantitative Analysis of a Half‐century of K‐Pop Songs: Association Rule Analysis of Lyrics and Social Network Analysis of Singers and Composers.” Journal of Popular Music Studies, vol. 29, no. 3, 2017, pp. e12225-n/a, https://doi.org/10.1111/jpms.12225.
+    \item South, Tobin. "Network analysis of the Spotify artist collaboration graph." Australian Mathematical Sciences Institute (2018): 1-12.
+    \item Donker, Silvia. "Networking data. A network analysis of Spotify's socio-technical related artist network." International Journal of Music Business Research 8.1 (2019): 67-101.
+\end{abstract}\maketitle
+
+\keywords{\textbf{Mechanism-Based Link Prediction}, \textbf{Music Graph Mining}, \textbf{Random-Walk Similarity}\\}
+
+\repo{\url{https://github.com/cse4106-fl25/finalproject-matthew-michael-aarya}}\\
+
+
+\newpage
+
+
+
+
+
+
+\section*{Introduction}
+
+The introduction section serves to expand upon the motivation, and to contextualize the specific problem chosen by the authors to work upon. In the absence of a dedicated related work section, comparison to previous approaches may be highlighted here. The section discusses the approach at a high-level, often with supporting figures where appropriate. The following is an example of how to insert an image in Latex.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{batman.jpg}
+    \caption{A cool graph. This image does not reflect the author's allegiance to the DC Comics universe.}
+    \label{fig:1}
+\end{figure}
+
+\section{Example Section}
+This is an example of a numbered section. Sections typically seen in a research paper are Related Work, Preliminaries/Background, Data, Methods, Experiments, Results, and Discussion. The order in which these sections appear may depend on the venue.
+
+\subsection{Example Subsection}
+This is an example of a subsection. For example, Definitions could be a subsection of the Preliminaries section.
+
+\section{Formulae, Tables}
+\subsection{Typing Equations in \LaTeX}
+This subsection demonstrates the use of inline formulae, like $e=mc^2$, or equations like the one below on a separate line. \[\int_a^b x^2\;\mathrm{d}x= \tfrac{1}{3} x^3 \Big|_a^b\]
+
+For numbered equations, we use the \textit{equation} environment:
+
+\begin{equation}
+    \int_a^b x^2\;\mathrm{d}x= \tfrac{1}{3} x^3 \Big|_a^b
+\end{equation}
+
+\subsection{Tables}
+This subsection demonstrates the use of tables in a \LaTeX document. Resources like \href{https://www.tablesgenerator.com/}{\emph{tablesgenerator.com}} can be used to generate code for tables like the one below.\
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+     \hline
+     \multicolumn{4}{|c|}{Country List} \\
+     \hline
+     Country Name     or Area Name& ISO ALPHA 2 Code &ISO ALPHA 3 Code&ISO numeric Code\\
+     \hline
+     Afghanistan   & AF    &AFG&   004\\
+     Aland Islands&   AX  & ALA   &248\\
+     Albania &AL & ALB&  008\\
+     Algeria    &DZ & DZA&  012\\
+     American Samoa&   AS  & ASM&016\\
+     Andorra& AD  & AND   &020\\
+     Angola& AO  & AGO&024\\
+     \hline
+    \end{tabular}
+    \caption{A Random Table}
+    \label{tab:my_label}
+\end{table}
+
+References to books \cite{DUMMY:1} or articles \cite{ARTICLE:1} can be made like this, with the full citations defined in a \emph{.bib} file.
+
+\bibliography{references}
+\bibliographystyle{ieeetr}
+
+\end{document}
