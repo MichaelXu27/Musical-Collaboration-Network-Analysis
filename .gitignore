@@ -8,7 +8,7 @@ data/final_data_processed
 ./data/final_data_processed
 !/data_raw/.gitkeep
 !/data_processed/.gitkeep
-gephi_data/
+gephi_data/raw_data
 
 
 .env
