@@ -233,17 +233,6 @@ Where:
 
 ---
 
-## Future Enhancements
-
-1. **Deep Learning:** Graph neural networks (GCN, GraphSAGE) for end-to-end feature learning
-2. **Temporal Dynamics:** Recurrent approaches accounting for time-varying edge probabilities
-3. **Attributed Networks:** Incorporate rich artist features (follower count, streaming metrics)
-4. **Advanced Optimization:** Bayesian hyperparameter tuning instead of grid search
-5. **Explainability:** SHAP analysis for feature importance at prediction level
-6. **Cross-Platform:** Integrate data from Genius, MusicBrainz for enhanced validation
-
----
-
 ## Summary
 
 This project demonstrates a comprehensive analysis of music collaboration networks using multiple complementary link prediction approaches. By decomposing the task into distinct musical eras and combining structural, genre-based, and community features, we achieve high-quality predictions that capture the evolving nature of artistic collaboration. The hybrid optimization framework provides a principled way to leverage multiple signals for improved accuracy, with clear interpretability across temporal domains.
